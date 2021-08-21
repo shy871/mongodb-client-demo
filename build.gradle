@@ -1,0 +1,51 @@
+group 'com.shy.test.mongodb'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+buildscript {
+    ext {
+        springBootVersion = '2.2.2.RELEASE'
+        springCloudVersion = 'Hoxton.RELEASE'
+    }
+    repositories {
+        maven { 
+            url 'https://maven.aliyun.com/nexus/content/groups/public'
+        }
+    }
+    dependencies {
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom ("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    }
+}
+
+repositories {
+    maven {
+        url 'https://maven.aliyun.com/nexus/content/groups/public'
+    }
+}
+
+dependencies {
+    compile ('org.springframework.boot:spring-boot-starter-web')
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb:2.2.2.RELEASE'
+
+    testCompile(
+            "org.testng:testng:6.11",
+            'org.mockito:mockito-core:2.8.47'
+    )
+}
+
